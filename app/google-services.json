@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "574325238589",
+    "project_id": "mega-electronics-4f9ff",
+    "storage_bucket": "mega-electronics-4f9ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574325238589:android:c1e4608f7db7fe72773354",
+        "android_client_info": {
+          "package_name": "com.glencconnnect.firebasedemoproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574325238589-1fkel4qqcur3eht39ofp85iheds6c20p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa_Ne-1wBbO133wjzEHzn60wOBZvF2jp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574325238589-1fkel4qqcur3eht39ofp85iheds6c20p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
