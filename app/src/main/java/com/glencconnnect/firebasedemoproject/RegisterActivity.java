@@ -1,5 +1,6 @@
 package com.glencconnnect.firebasedemoproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,11 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
     private Button btnSignup;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.txtPassword);
         btnSignup = findViewById(R.id.btnSignUp);
 
+        mAuth = FirebaseAuth.getInstance();
 
         btnSignup.setOnClickListener(v->{
             String txt_email = email.getText().toString();
@@ -39,6 +48,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void signUp(String txt_email, String txt_password) {
+        mAuth.createUserWithEmailAndPassword(txt_email,txt_password)
+                .addOnCompleteListener(RegisterActivity.this, task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
+                    }else{
 
+                        Toast.makeText(RegisterActivity.this, "Signup failed, an error occured", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
