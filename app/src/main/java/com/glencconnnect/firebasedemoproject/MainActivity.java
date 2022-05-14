@@ -147,15 +147,28 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         //to merge data, in case you feel, you need to add another key value pair to existing document data
+        //and merge the data
 
-        Map<String,Object> topics_added_field = new HashMap<>();
-        topics_added_field.put("status","member");
+//        Map<String,Object> topics_added_field = new HashMap<>();
+//        topics_added_field.put("status","member");
+//
+//        db.collection("Books").document("Learning")
+//                .set(topics_added_field, SetOptions.merge())
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()){
+//                        Toast.makeText(MainActivity.this, "additional field added", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
-        db.collection("Books").document("Learning")
-                .set(topics_added_field, SetOptions.merge())
+
+        //in order to give data a unique ID use the add function
+        Map<String,Object> data = new HashMap<>();
+        data.put("name","Flask");
+        data.put("author","Fay");
+        db.collection("Books").add(data)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
-                        Toast.makeText(MainActivity.this, "additional field added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Data added", Toast.LENGTH_SHORT).show();
                     }
                 });
 
