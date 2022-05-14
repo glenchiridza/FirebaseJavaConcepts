@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,7 +19,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -172,5 +176,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        //updating existing data
+
+        DocumentReference ref = FirebaseFirestore.getInstance().collection("Books")
+                .document("Learning");
+        ref.update("author","Glen cHiridza");
+
+        db.collection("Books").get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot document : task.getResult()){
+                            if(document.exists()){
+                                Log.d("Document",document.getData().toString());
+                            }else{
+                                Log.d("Document","There is no data");
+                            }
+                        }
+                    }
+                });
     }
 }
