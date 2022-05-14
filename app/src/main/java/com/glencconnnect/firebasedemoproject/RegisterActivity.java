@@ -40,12 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
 
             if(TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
                 Toast.makeText(RegisterActivity.this, "all fields required", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterActivity.this,MainActivity.class));
-                finish();
             }else if(txt_password.length() < 6){
                 Toast.makeText(RegisterActivity.this, "short password", Toast.LENGTH_SHORT).show();
             }else{
                 signUp(txt_email,txt_password);
+                startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                finish();
+
             }
         });
     }
