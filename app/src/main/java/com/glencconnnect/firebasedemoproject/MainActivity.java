@@ -10,9 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -90,12 +87,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final ArrayList<String> list = new ArrayList<>();
+//        dbRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                list.clear();
+//                for(DataSnapshot snap : snapshot.getChildren()){
+//                    list.add(snap.getValue().toString());
+//                    dataHolder.setText(list.toString());
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+        //using model
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 for(DataSnapshot snap : snapshot.getChildren()){
-                    list.add(snap.getValue().toString());
+                    Books books = snap.getValue(Books.class);
+                    String text = books.getName() + ", " + books.getAuthor();
+                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                    list.add(text);
                     dataHolder.setText(list.toString());
 
                 }
@@ -107,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
 
     }
