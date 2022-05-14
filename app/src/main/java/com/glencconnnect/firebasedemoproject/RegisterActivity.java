@@ -3,6 +3,7 @@ package com.glencconnnect.firebasedemoproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -39,6 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             if(TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
                 Toast.makeText(RegisterActivity.this, "all fields required", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                finish();
             }else if(txt_password.length() < 6){
                 Toast.makeText(RegisterActivity.this, "short password", Toast.LENGTH_SHORT).show();
             }else{
