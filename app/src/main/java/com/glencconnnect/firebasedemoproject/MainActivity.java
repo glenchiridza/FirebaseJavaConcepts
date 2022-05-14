@@ -7,15 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtAuthorName;
     private Button btnSave;
 
+    private TextView dataHolder;
     private FirebaseAuth mAuth;
 
     private FirebaseDatabase fbDatabase;
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         edtAuthorName = findViewById(R.id.txtAuthor);
         edtBookName = findViewById(R.id.txtBookName);
+        dataHolder = findViewById(R.id.txt_data);
         btnSave = findViewById(R.id.btnSave);
 
         mAuth = FirebaseAuth.getInstance();
@@ -58,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
         dbRef  =fbDatabase.getReference().child("Books").child("Android-Java");
 
-        dbRef.updateChildren(map);
+//        dbRef.updateChildren(map);
 
         btnSave.setOnClickListener(v->{
             String txt_book_name = edtBookName.getText().toString();
-            String txt_author_name = edtBookName.getText().toString();
+            String txt_author_name = edtAuthorName.getText().toString();
             if(txt_book_name.isEmpty() || txt_author_name.isEmpty()){
                 Toast.makeText(MainActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
             }else{
@@ -73,10 +80,30 @@ public class MainActivity extends AppCompatActivity {
                 //or
                 map.put("name",txt_book_name);
                 map.put("author",txt_author_name);
-                dbRef.updateChildren(map)
+                dbRef.push().setValue(map)
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(MainActivity.this, "Data Saved to DB", Toast.LENGTH_SHORT).show();
+                            edtBookName.setText("");
+                            edtAuthorName.setText("");
                         });
+            }
+        });
+
+        final ArrayList<String> list = new ArrayList<>();
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for(DataSnapshot snap : snapshot.getChildren()){
+                    list.add(snap.getValue().toString());
+                    dataHolder.setText(list.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
