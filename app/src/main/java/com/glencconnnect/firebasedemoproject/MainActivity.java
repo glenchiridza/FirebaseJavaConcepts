@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
             if(txt_book_name.isEmpty() || txt_author_name.isEmpty()){
                 Toast.makeText(MainActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
             }else{
+                //single value way
+//                dbRef.push().child("name").setValue(txt_book_name);
+//                dbRef.push().child("author").setValue(txt_author_name);
+
+                //or
                 map.put("name",txt_book_name);
                 map.put("author",txt_author_name);
                 dbRef.updateChildren(map)
