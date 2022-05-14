@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot snap : snapshot.getChildren()){
                     list.add(snap.getValue().toString());
                     dataHolder.setText(list.toString());
+
                 }
 
             }
@@ -106,5 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 }
