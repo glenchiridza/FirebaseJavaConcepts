@@ -10,15 +10,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -128,6 +133,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String,Object> topics = new HashMap<>();
+        topics.put("name","Django");
+        topics.put("author","Faith Chiridza");
+
+        db.collection("Books").document("Learning")
+                .set(topics)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "Data added", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //to merge data, in case you feel, you need to add another key value pair to existing document data
+
+        Map<String,Object> topics_added_field = new HashMap<>();
+        topics_added_field.put("status","member");
+
+        db.collection("Books").document("Learning")
+                .set(topics_added_field, SetOptions.merge())
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "additional field added", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 }
